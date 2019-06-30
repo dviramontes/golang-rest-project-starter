@@ -58,6 +58,7 @@ func main() {
 	})
 
 	router.Get("/index", API.Index)
+	router.Get("/prune", API.Prune)
 
 	http.ListenAndServe(":3000", router)
 }

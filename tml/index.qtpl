@@ -1,3 +1,6 @@
+Note: All text outside function is considered comments
+
+{% func Compile(alerts []string) %}
 <!DOCTYPE html>
 <html>
   <head>
@@ -6,12 +9,14 @@
   </head>
   <body>
     <h1>Alarms</h1>
-    {% func Compile(alerts []string) %}
-    	 <ul>
-            {% for i, alert := range alerts %}
-                <li>{%d i %} -- {%s alert %}</li>
-            {% endfor %}
-            </ul>
-    {% endfunc %}
+    <ul>
+      {% if len(alerts) == 0 %}
+        <p>No alarms at this time.</p>
+      {% endif %}
+      {% for i, alert := range alerts %}
+        <li>{%d i %} -- {%s alert %}</li>
+      {% endfor %}
+    </ul>
   </body>
 </html>
+{% endfunc %}

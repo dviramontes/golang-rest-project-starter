@@ -12,6 +12,8 @@
 
 ## DEPENDENCIES
 - `make deps`
+- `go get -u github.com/valyala/quicktemplate`
+- `go get -u github.com/valyala/quicktemplate/qtc`
 
 ## TESTS
 

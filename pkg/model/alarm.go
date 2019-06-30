@@ -26,23 +26,36 @@ func (db *DB) Migrate() {
 
 func (db *DB) Seed() {
 	log.Println("seeding db...")
-
-	db.CreateAlarm("This is the first alarm.")
-	db.CreateAlarm("This is the second alarm.")
+	a := &Alarm{Text: "This is the first alarm."}
+	b := &Alarm{Text: "This is the second alarm."}
+	db.CreateAlarm(a)
+	db.CreateAlarm(b)
 }
 
-func (db *DB) CreateAlarm(text string) {
-	db.conn.Create(&Alarm{Text: text})
+func (db *DB) CreateAlarm(alarm *Alarm) error {
+	if err := db.conn.Create(alarm).Error; err != nil {
+		return err
+	}
+	return nil
 }
 
-func (db *DB) GetAllAlarms(alarms *[]Alarm) {
-	db.conn.Find(alarms)
+func (db *DB) GetAllAlarms(alarms *[]Alarm) error {
+	if err := db.conn.Find(alarms).Error; err != nil {
+		return err
+	}
+	return nil
 }
 
-func (db *DB) DeleteAlarm(id int64) {
-	db.conn.Unscoped().Delete(&Alarm{}, "id = ?", id)
+func (db *DB) DeleteAlarm(id int64) error {
+	if err := db.conn.Unscoped().Delete(&Alarm{}, "id = ?", id).Error; err != nil {
+		return err
+	}
+	return nil
 }
 
-func (db *DB) DeleteAllAlarms() {
-	db.conn.Unscoped().Delete(&Alarm{})
+func (db *DB) DeleteAllAlarms() error {
+	if err := db.conn.Unscoped().Delete(&Alarm{}).Error; err != nil {
+		return err
+	}
+	return nil
 }

@@ -17,7 +17,7 @@ require (
 	github.com/google/pprof v0.0.0-20190515194954-54271f7e092f // indirect
 	github.com/googleapis/gax-go/v2 v2.0.5 // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.9.3 // indirect
-	github.com/jinzhu/gorm v1.9.9
+	github.com/jinzhu/gorm v1.9.10
 	github.com/kisielk/errcheck v1.2.0 // indirect
 	github.com/klauspost/compress v1.7.1 // indirect
 	github.com/klauspost/cpuid v1.2.1 // indirect

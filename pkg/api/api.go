@@ -1,6 +1,8 @@
 package api
 
 import (
+	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/dviramontes/golang-rest-project-starter/pkg/model"
@@ -18,9 +20,27 @@ func New(db *model.DB) *API {
 func (api *API) Index(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 	var alarms []model.Alarm
-	api.db.GetAllAlarms(&alarms)
+
+	err := api.db.GetAllAlarms(&alarms)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, fmt.Sprintf("%v\n", err), 500)
+		return
+	}
+
 	names := normalizeAlarms(&alarms)
 	w.Write([]byte(tml.Compile(names)))
+}
+
+func (api *API) Prune(w http.ResponseWriter, r *http.Request) {
+	err := api.db.DeleteAllAlarms()
+	if err != nil {
+		log.Println(err)
+		http.Error(w, fmt.Sprintf("%v\n", err), 500)
+		return
+	}
+
+	w.Write([]byte("OK"))
 }
 
 func normalizeAlarms(alarms *[]model.Alarm) []string {
