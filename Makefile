@@ -1,4 +1,4 @@
-.PHONY: deps dev test build
+.PHONY: deps dev test build tml
 
 deps:
 	go get -u ./...
@@ -11,3 +11,7 @@ dev:
 
 test:
 	go test -v ./...
+
+tml:
+	cd tml
+	qtc

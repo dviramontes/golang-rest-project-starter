@@ -7,7 +7,7 @@ import (
 
 	"github.com/dviramontes/golang-rest-project-starter/internal/config"
 	"github.com/dviramontes/golang-rest-project-starter/pkg/api"
-	"github.com/dviramontes/golang-rest-project-starter/pkg/pg"
+	"github.com/dviramontes/golang-rest-project-starter/pkg/model"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/render"
@@ -31,7 +31,7 @@ func main() {
 	}
 	defer pgdb.Close()
 
-	DB := pg.New(pgdb)
+	DB := model.New(pgdb)
 	API := api.New(DB)
 
 	DB.Migrate()
@@ -57,7 +57,7 @@ func main() {
 		w.Write([]byte("pong"))
 	})
 
-	router.Get("/", API.Get)
+	router.Get("/index", API.Index)
 
 	http.ListenAndServe(":3000", router)
 }
