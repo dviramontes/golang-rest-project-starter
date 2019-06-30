@@ -7,20 +7,38 @@ import (
 
 	"github.com/dviramontes/golang-rest-project-starter/internal/config"
 	"github.com/dviramontes/golang-rest-project-starter/pkg/api"
+	"github.com/dviramontes/golang-rest-project-starter/pkg/pg"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/render"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 func main() {
 	conf := config.Read("/config.yml", map[string]interface{}{
-		"ingest": true, // ingest by default
+		"seed": true, // ingest by default
 	})
-
-	API := api.New()
-
 	version := conf.GetString("version")
+	seed := conf.GetBool("seed")
+
 	log.Printf("version: %s\n", version)
+	log.Printf("seeding: %t\n", seed)
+
+	pgdb, err := gorm.Open("postgres", "host=project-postgres port=5432 dbname=postgres user=postgres password=postgres sslmode=disable")
+	if err != nil {
+		log.Fatalln(err, "Could not connect to postgres database")
+	}
+	defer pgdb.Close()
+
+	DB := pg.New(pgdb)
+	API := api.New(DB)
+
+	DB.Migrate()
+
+	if seed {
+		DB.Seed()
+	}
 
 	router := chi.NewRouter()
 

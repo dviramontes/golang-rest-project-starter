@@ -1,3 +1,4 @@
 ### RUNTIME APP CONFIGURATIONS
 
 version: 0.0.1
+seed: true

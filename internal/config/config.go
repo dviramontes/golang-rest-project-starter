@@ -15,12 +15,13 @@ func Read(path string, defaults map[string]interface{}) *viper.Viper {
 	v.AddConfigPath(".")
 	v.AutomaticEnv()
 
+	for key, val := range defaults {
+		v.SetDefault(key, val)
+	}
+
 	err := v.ReadInConfig()
 	if err != nil {
-		log.Println(err.Error(), "proceeding with defaults")
-		for key, val := range defaults {
-			v.SetDefault(key, val)
-		}
+		log.Println("proceeding with defaults and env vars")
 	}
 
 	return v

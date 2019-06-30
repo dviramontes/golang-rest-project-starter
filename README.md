@@ -4,6 +4,9 @@
 - [docker & docker-compose](https://www.docker.com/get-started)
 - [golang](https://golang.org/doc/install) version 1.11.4 or newer
 
+## SETUP
+- `cp sample.config.yml config.yml`
+
 ## DEVELOPMENT
 - `make dev`
 
