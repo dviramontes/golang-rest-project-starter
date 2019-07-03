@@ -1,23 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import './App.css';
 
+const endpoint: string = "http://localhost:4000/api/alerts/"
+
 const App: React.FC = () => {
+  const [alerts, setAlerts] = useState([]);
+
+  const getAlerts = async ()  => {
+    try {
+      const { status, data: newAlerts } = await axios.get(endpoint)
+      if (status === 200) {
+        setAlerts(alerts.concat(newAlerts))
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  useEffect(() => {
+    getAlerts()
+  }, [])
+
   return (
       <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1><u>Alerts</u></h1>
+        <>
+          { alerts.length === 0 ?
+            <p>No alerts</p> :
+            <ul style={{listStyle: "none"}}>
+              { alerts.map((a, i) => <li>{`${i} - ${a}`}</li>) }
+            </ul>
+          }
+        </>
       </header>
     </div>
   );

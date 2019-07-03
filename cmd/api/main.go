@@ -10,6 +10,7 @@ import (
 	"github.com/dviramontes/golang-rest-project-starter/pkg/model"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/cors"
 	"github.com/go-chi/render"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -42,8 +43,19 @@ func main() {
 
 	router := chi.NewRouter()
 
+	// Basic CORS
+	cors := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: true,
+		MaxAge:           300, // Maximum value not ignored by any of major browsers
+	})
+
 	// middleware setup
 	router.Use(
+		cors.Handler,
 		render.SetContentType(render.ContentTypeJSON), // set content-type headers as application/json
 		middleware.Logger,                         // log api request calls
 		middleware.DefaultCompress,                // compress results, mostly gzipping assets and json
@@ -57,8 +69,13 @@ func main() {
 		w.Write([]byte("pong"))
 	})
 
-	router.Get("/index", API.Index)
-	router.Get("/prune", API.Prune)
+	router.Route("/api", func(router chi.Router) {
+		router.Route("/alerts", func(router chi.Router) {
+			router.Get("/", API.GetAlerts)
+			router.Get("/seed", API.Seed)
+			router.Get("/prune", API.Prune)
+		})
+	})
 
-	http.ListenAndServe(":3000", router)
+	http.ListenAndServe(":4000", router)
 }

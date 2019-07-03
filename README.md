@@ -8,12 +8,11 @@
 - `cp sample.config.yml config.yml`
 
 ## DEVELOPMENT
-- `make dev`
+- `make server`
+- `make client`
 
 ## DEPENDENCIES
 - `make deps`
-- `go get -u github.com/valyala/quicktemplate`
-- `go get -u github.com/valyala/quicktemplate/qtc`
 
 ## TESTS
 

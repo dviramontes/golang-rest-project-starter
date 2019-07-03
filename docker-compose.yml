@@ -19,11 +19,11 @@ services:
       - ../golang-rest-project-starter:/app
     working_dir: /app
     ports:
-      - "3000:3000"
+      - "4000:4000"
     depends_on:
       - postgres
     environment:
-      PORT: 3000
+      PORT: 4000
 
 volumes:
   pg-data:

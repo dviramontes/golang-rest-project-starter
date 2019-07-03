@@ -1,4 +1,4 @@
-.PHONY: deps dev test build tml
+.PHONY: deps server test build client
 
 deps:
 	go get -u ./...
@@ -6,12 +6,11 @@ deps:
 build: deps
 	docker-compose up --build
 
-dev:
+server:
 	docker-compose up
 
 test:
 	go test -v ./...
 
-tml:
-	cd tml
-	qtc
+client:
+	cd client && npm start

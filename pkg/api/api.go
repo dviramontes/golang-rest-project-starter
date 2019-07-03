@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/dviramontes/golang-rest-project-starter/pkg/model"
-	"github.com/dviramontes/golang-rest-project-starter/tml"
+	"github.com/go-chi/render"
 )
 
 type API struct {
@@ -17,8 +17,7 @@ func New(db *model.DB) *API {
 	return &API{db}
 }
 
-func (api *API) Index(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html")
+func (api *API) GetAlerts(w http.ResponseWriter, r *http.Request) {
 	var alarms []model.Alarm
 
 	err := api.db.GetAllAlarms(&alarms)
@@ -29,7 +28,7 @@ func (api *API) Index(w http.ResponseWriter, r *http.Request) {
 	}
 
 	names := normalizeAlarms(&alarms)
-	w.Write([]byte(tml.Compile(names)))
+	render.Respond(w, r, names)
 }
 
 func (api *API) Prune(w http.ResponseWriter, r *http.Request) {
@@ -40,6 +39,11 @@ func (api *API) Prune(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Write([]byte("OK"))
+}
+
+func (api *API) Seed(w http.ResponseWriter, r *http.Request) {
+	api.db.Seed()
 	w.Write([]byte("OK"))
 }
 

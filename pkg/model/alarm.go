@@ -1,8 +1,6 @@
 package model
 
 import (
-	"log"
-
 	"github.com/jinzhu/gorm"
 )
 
@@ -25,11 +23,10 @@ func (db *DB) Migrate() {
 }
 
 func (db *DB) Seed() {
-	log.Println("seeding db...")
 	a := &Alarm{Text: "This is the first alarm."}
 	b := &Alarm{Text: "This is the second alarm."}
-	db.CreateAlarm(a)
-	db.CreateAlarm(b)
+	db.conn.Where(Alarm{Text: "This is the first alarm."}).FirstOrCreate(a)
+	db.conn.Where(Alarm{Text: "This is the second alarm."}).FirstOrCreate(b)
 }
 
 func (db *DB) CreateAlarm(alarm *Alarm) error {
