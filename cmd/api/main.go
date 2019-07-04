@@ -75,6 +75,10 @@ func main() {
 			router.Get("/seed", API.Seed)
 			router.Get("/prune", API.Prune)
 		})
+
+		router.Route("/todos", func(router chi.Router) {
+			router.Get("/", API.GetTodos)
+		})
 	})
 
 	http.ListenAndServe(":4000", router)

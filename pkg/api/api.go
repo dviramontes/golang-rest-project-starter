@@ -17,6 +17,10 @@ func New(db *model.DB) *API {
 	return &API{db}
 }
 
+// **************
+// * ALERTS API *
+// **************
+
 func (api *API) GetAlerts(w http.ResponseWriter, r *http.Request) {
 	var alarms []model.Alarm
 
@@ -54,4 +58,21 @@ func normalizeAlarms(alarms *[]model.Alarm) []string {
 	}
 
 	return names
+}
+
+// *************
+// * TODOS API *
+// *************
+
+func (api *API) GetTodos(w http.ResponseWriter, r *http.Request) {
+	var todos []model.Todo
+
+	err := api.db.GetAllTodos(&todos)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, fmt.Sprintf("%v\n", err), 500)
+		return
+	}
+
+	render.Respond(w, r, todos)
 }

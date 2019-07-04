@@ -1,25 +1,11 @@
 package model
 
-import (
-	"github.com/jinzhu/gorm"
-)
-
-type DB struct {
-	conn *gorm.DB
-}
-
-func New(db *gorm.DB) *DB {
-	return &DB{db}
-}
+import "github.com/jinzhu/gorm"
 
 type Alarm struct {
 	gorm.Model
 	// ID int64 | primary key
 	Text string
-}
-
-func (db *DB) Migrate() {
-	db.conn.AutoMigrate(&Alarm{})
 }
 
 func (db *DB) Seed() {

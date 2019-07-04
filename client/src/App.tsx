@@ -23,18 +23,21 @@ const App: React.FC = () => {
   }, [])
 
   return (
-      <div className="App">
+    <div className="App">
       <header className="App-header">
         <h1><u>Alerts</u></h1>
-        <>
-          { alerts.length === 0 ?
-            <p>No alerts</p> :
-            <ul style={{listStyle: "none"}}>
-              { alerts.map((a, i) => <li>{`${i} - ${a}`}</li>) }
-            </ul>
-          }
-        </>
       </header>
+      <div className="content">
+        { alerts.length === 0 ?
+            <p>No alerts</p> :
+            <ul>
+              {
+                alerts.map((a, i) =>
+                    <li key={i}>{`${i} - ${a}`}</li>)
+              }
+            </ul>
+        }
+      </div>
     </div>
   );
 }
