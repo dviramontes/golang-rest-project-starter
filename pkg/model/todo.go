@@ -4,7 +4,7 @@ import "github.com/jinzhu/gorm"
 
 type Todo struct {
 	gorm.Model
-	Text string
+	Text      string
 	Completed bool
 }
 
@@ -19,5 +19,5 @@ func (db *DB) CreateTodo(todo *Todo) error {
 	if err := db.conn.Create(todo).Error; err != nil {
 		return err
 	}
-	return  nil
+	return nil
 }
