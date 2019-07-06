@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/dviramontes/golang-rest-project-starter/pkg/model"
+	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
 )
 
@@ -37,6 +39,18 @@ func (api *API) GetAlerts(w http.ResponseWriter, r *http.Request) {
 
 func (api *API) Prune(w http.ResponseWriter, r *http.Request) {
 	err := api.db.DeleteAllAlarms()
+	if err != nil {
+		log.Println(err)
+		http.Error(w, fmt.Sprintf("%v\n", err), 500)
+		return
+	}
+
+	w.Write([]byte("OK"))
+}
+
+func (api *API) Delete(w http.ResponseWriter, r *http.Request) {
+	id, _ := strconv.Atoi(chi.URLParam(r, "id"))
+	err := api.db.DeleteAlarm(id)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, fmt.Sprintf("%v\n", err), 500)

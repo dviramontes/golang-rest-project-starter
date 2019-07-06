@@ -29,8 +29,8 @@ func (db *DB) GetAllAlarms(alarms *[]Alarm) error {
 	return nil
 }
 
-func (db *DB) DeleteAlarm(id int64) error {
-	if err := db.conn.Unscoped().Delete(&Alarm{}, "id = ?", id).Error; err != nil {
+func (db *DB) DeleteAlarm(id int) error {
+	if err := db.conn.Delete(&Alarm{}, "id = ?", id).Error; err != nil {
 		return err
 	}
 	return nil

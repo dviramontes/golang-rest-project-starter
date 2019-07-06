@@ -71,13 +71,14 @@ func main() {
 
 	router.Route("/api", func(router chi.Router) {
 		router.Route("/alerts", func(router chi.Router) {
-			router.Get("/", API.GetAlerts)
+			router.Get("/all", API.GetAlerts)
 			router.Get("/seed", API.Seed)
-			router.Get("/prune", API.Prune)
+			router.Delete("/{id}", API.Delete)
+			router.Delete("/prune", API.Prune)
 		})
 
 		router.Route("/todos", func(router chi.Router) {
-			router.Get("/", API.GetTodos)
+			router.Get("/all", API.GetTodos)
 		})
 	})
 

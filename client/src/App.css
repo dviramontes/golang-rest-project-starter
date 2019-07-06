@@ -34,3 +34,10 @@
     transform: rotate(360deg);
   }
 }
+
+#refresh-btn {
+  margin: 1em;
+  color: white;
+  background: #282c34;
+  border-radius: 0.5em;
+}

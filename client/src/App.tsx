@@ -1,35 +1,23 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React from 'react'
+import useAxios from 'axios-hooks'
 import Alerts from './Alerts'
 import './App.css'
 
-const endpoint: string = "http://localhost:4000/api/alerts/"
-
 const App: React.FC = () => {
-  const [alerts, setAlerts] = useState([])
+  const [{data: alerts, loading, error}, refetch] = useAxios(
+    "http://localhost:4000/api/alerts/all"
+  )
 
-  const getAlerts = async () => {
-    try {
-      const { status, data: newAlerts } = await axios.get(endpoint)
-      if (status === 200) {
-        setAlerts(alerts.concat(newAlerts))
-      }
-    } catch (e) {
-      throw e
-    }
-  }
-
-  useEffect(() => {
-    getAlerts()
-  }, [])
+  if (error) return <div className="App">error</div>
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1><u>Alerts</u></h1>
+        <h1><u>{ loading ? "Loading..." : "Alerts"}</u></h1>
       </header>
+      <button id="refresh-btn" onClick={refetch}>refresh</button>
       <div className="content">
-        <Alerts alerts={alerts}/>
+        { !loading && <Alerts alerts={alerts}/>}
       </div>
     </div>
   )
