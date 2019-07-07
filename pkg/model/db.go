@@ -13,5 +13,5 @@ func New(db *gorm.DB) *DB {
 }
 
 func (db *DB) Migrate() {
-	db.conn.AutoMigrate(&Alarm{}, &Todo{})
+	db.conn.AutoMigrate(&Alarm{})
 }

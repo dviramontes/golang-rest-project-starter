@@ -63,20 +63,3 @@ func (api *API) Seed(w http.ResponseWriter, r *http.Request) {
 	api.db.Seed()
 	w.Write([]byte("OK"))
 }
-
-// *************
-// * TODOS API *
-// *************
-
-func (api *API) GetTodos(w http.ResponseWriter, r *http.Request) {
-	var todos []model.Todo
-
-	err := api.db.GetAllTodos(&todos)
-	if err != nil {
-		log.Println(err)
-		http.Error(w, fmt.Sprintf("%v\n", err), 500)
-		return
-	}
-
-	render.Respond(w, r, todos)
-}

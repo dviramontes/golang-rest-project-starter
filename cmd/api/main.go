@@ -76,10 +76,6 @@ func main() {
 			router.Delete("/{id}", API.Delete)
 			router.Delete("/prune", API.Prune)
 		})
-
-		router.Route("/todos", func(router chi.Router) {
-			router.Get("/all", API.GetTodos)
-		})
 	})
 
 	http.ListenAndServe(":4000", router)

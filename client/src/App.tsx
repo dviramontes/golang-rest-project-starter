@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import useAxios from 'axios-hooks'
-import Alerts from './Alerts'
+import { AlertInput, Alerts } from './Alerts'
 import './App.css'
 
 const App: React.FC = () => {
-  const [{data: alerts, loading, error}, refetch] = useAxios(
+  const [alert, setAlert] = useState("")
+  const [{data: getAlerts, loading, error}, refetch] = useAxios(
     "http://localhost:4000/api/alerts/all"
   )
 
@@ -17,7 +18,8 @@ const App: React.FC = () => {
       </header>
       <button id="refresh-btn" onClick={refetch}>refresh</button>
       <div className="content">
-        { !loading && <Alerts alerts={alerts}/>}
+        { !loading && <Alerts alerts={getAlerts}/>}
+        <AlertInput fn={setAlert}/>
       </div>
     </div>
   )
