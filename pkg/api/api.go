@@ -33,8 +33,7 @@ func (api *API) GetAlerts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	names := normalizeAlarms(&alarms)
-	render.Respond(w, r, names)
+	render.Respond(w, r, &alarms)
 }
 
 func (api *API) Prune(w http.ResponseWriter, r *http.Request) {
@@ -63,15 +62,6 @@ func (api *API) Delete(w http.ResponseWriter, r *http.Request) {
 func (api *API) Seed(w http.ResponseWriter, r *http.Request) {
 	api.db.Seed()
 	w.Write([]byte("OK"))
-}
-
-func normalizeAlarms(alarms *[]model.Alarm) []string {
-	var names []string
-	for _, a := range *alarms {
-		names = append(names, a.Text)
-	}
-
-	return names
 }
 
 // *************

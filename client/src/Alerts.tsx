@@ -1,7 +1,12 @@
 import React from "react"
 
+interface Alert{
+  ID: string,
+  Text: string,
+}
+
 interface AlertsProps {
-  alerts: string[]
+  alerts: Alert[],
 }
 
 const Alerts: React.FC<AlertsProps> =
@@ -11,7 +16,8 @@ const Alerts: React.FC<AlertsProps> =
         <p>No alerts</p> :
         <ul>
           {
-            alerts.map((a, i) => <li key={i}>{`${i} - ${a}`}</li>)
+            alerts.map(({ ID, Text}) =>
+              (<li key={ID}>{`${ID} - ${Text}`}</li>))
           }
         </ul>
       }
