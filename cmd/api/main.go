@@ -71,8 +71,9 @@ func main() {
 
 	router.Route("/api", func(router chi.Router) {
 		router.Route("/alerts", func(router chi.Router) {
-			router.Get("/all", API.GetAlerts)
-			router.Get("/seed", API.Seed)
+			router.Get("/", API.GetAlerts)
+			router.Post("/", API.PostAlert)
+			router.Post("/seed", API.Seed)
 			router.Delete("/{id}", API.Delete)
 			router.Delete("/prune", API.Prune)
 		})

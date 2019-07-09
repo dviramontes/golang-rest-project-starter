@@ -5,7 +5,7 @@ import "github.com/jinzhu/gorm"
 type Alarm struct {
 	gorm.Model
 	// ID int64 | primary key
-	Text string
+	Text string `json: "text"`
 }
 
 func (db *DB) Seed() {

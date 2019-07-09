@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 
 interface Alert{
   ID: string,
@@ -13,7 +13,7 @@ interface AletsInputProps {
   fn: Function,
 }
 const Alerts: React.FC<AlertsProps> =
-  ({ alerts }) => (
+  ({ alerts = [] }) => (
     <>
       {alerts.length === 0 ?
         <p>No alerts</p> :
@@ -27,10 +27,19 @@ const Alerts: React.FC<AlertsProps> =
     </>)
 
 const AlertInput: React.FC<AletsInputProps> =
-  ({ fn }) => (
-    <input type="text"
-           onKeyDown={(key) => console.log(key.keyCode)}
-           onChange={(e) => fn(e.target.value)}
-           placeholder="enter new alert"/>)
+  ({ fn }) => {
+    const [alert, setAlert] = useState("")
+    const enterKeyGuard = ({ keyCode }: React.KeyboardEvent) => {
+      if (keyCode === 13) {
+        fn(alert)
+      }
+    }
 
+    return (
+      <input type="text"
+             onKeyDown={enterKeyGuard}
+             onChange={(e) => setAlert(e.target.value)}
+             placeholder="enter new alert"/>)
+
+  }
 export { Alerts, AlertInput }
