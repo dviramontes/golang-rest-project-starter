@@ -8,7 +8,6 @@ import (
 	"strconv"
 
 	"github.com/dviramontes/golang-rest-project-starter/pkg/model"
-	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
 )
 
@@ -65,14 +64,18 @@ func (api *API) Prune(w http.ResponseWriter, r *http.Request) {
 }
 
 func (api *API) Delete(w http.ResponseWriter, r *http.Request) {
-	id, _ := strconv.Atoi(chi.URLParam(r, "id"))
-	err := api.db.DeleteAlarm(id)
-	if err != nil {
-		http.Error(w, fmt.Sprintf("%v\n", err), 500)
+	if queryParam := r.URL.Query().Get("id"); queryParam != "" {
+		id, _ := strconv.Atoi(queryParam)
+		err := api.db.DeleteAlarm(id)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("%v\n", err), 500)
+			return
+		}
+
+		w.Write([]byte("OK"))
 		return
 	}
-
-	w.Write([]byte("OK"))
+	http.Error(w, "bad input", 400)
 }
 
 func (api *API) Seed(w http.ResponseWriter, r *http.Request) {

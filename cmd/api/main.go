@@ -74,7 +74,7 @@ func main() {
 			router.Get("/", API.GetAlerts)
 			router.Post("/", API.PostAlert)
 			router.Post("/seed", API.Seed)
-			router.Delete("/{id}", API.Delete)
+			router.Delete("/", API.Delete)
 			router.Delete("/prune", API.Prune)
 		})
 	})
