@@ -5,7 +5,8 @@ import "github.com/jinzhu/gorm"
 type Alarm struct {
 	gorm.Model
 	// ID int64 | primary key
-	Text string `json: "text"`
+	Text  string `json: "text"`
+	Votes int    `json: "votes"`
 }
 
 func (db *DB) Seed() {
@@ -23,7 +24,7 @@ func (db *DB) CreateAlarm(alarm *Alarm) error {
 }
 
 func (db *DB) GetAllAlarms(alarms *[]Alarm) error {
-	if err := db.conn.Find(alarms).Error; err != nil {
+	if err := db.conn.Order("created_at desc").Find(alarms).Error; err != nil {
 		return err
 	}
 	return nil
