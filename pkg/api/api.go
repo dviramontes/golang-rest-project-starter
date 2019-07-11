@@ -1,6 +1,7 @@
 package api
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -49,6 +50,29 @@ func (api *API) PostAlert(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, fmt.Sprintf("%v\n", err), 500)
 		return
 	}
+
+	go func() {
+		payload := struct {
+			AlarmID uint `json:"alarm_id"`
+		}{alarm.ID}
+
+		p, err := json.Marshal(payload)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, fmt.Sprintf("%v\n", err), 500)
+			return
+		}
+
+		// test endpoint http://6457b5c5.ngrok.io
+		pushEndpoint := "https://bellbird.joinhandshake-internal.com/push"
+		resp, err := http.Post(pushEndpoint, "application/json", bytes.NewBuffer(p))
+		if err != nil {
+			log.Println(err)
+			http.Error(w, fmt.Sprintf("%v\n", err), 500)
+			return
+		}
+		defer resp.Body.Close()
+	}()
 
 	w.Write([]byte("OK"))
 }
