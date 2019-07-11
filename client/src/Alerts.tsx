@@ -8,13 +8,14 @@ interface Alert{
 interface AlertsProps {
   alerts: Alert[],
   deleteFn: Function,
+  upvoteAlert: Function,
 }
 
 interface AletsInputProps {
   fn: Function,
 }
 const Alerts: React.FC<AlertsProps> =
-  ({ alerts = [], deleteFn }) => (
+  ({ alerts = [], deleteFn, upvoteAlert }) => (
     <>
       {alerts.length === 0 ?
         <p>No alerts</p> :
@@ -25,6 +26,9 @@ const Alerts: React.FC<AlertsProps> =
                 {`${ID} - ${Text}`}
                 <span onClick={() => deleteFn(ID)}>
                   <b><small>{" [x] "}</small></b>
+                </span>
+                <span onClick={() => upvoteAlert(ID)}>
+                  <b><small>{" [^] "}</small></b>
                 </span>
               </li>))
           }

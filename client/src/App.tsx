@@ -34,7 +34,20 @@ const App: React.FC = () => {
     })
   }
 
-  const someError = () => [getError, postError, deleteError].find(e => e)
+  const [{ error: upvoteError }, execUpvote] = useAxios({
+    url: "http://localhost:4000/api/alerts/upvote",
+    method: "PUT",
+  }, { manual: true })
+
+  const upvoteAlert = (id: number) => {
+    execUpvote({
+      params: {
+        id,
+      }
+    })
+  }
+
+  const someError = () => [getError, postError, deleteError, upvoteError].find(e => e)
 
   return (
     <div className="App">
@@ -43,7 +56,9 @@ const App: React.FC = () => {
       </header>
       <button id="refresh-btn" onClick={refetch}>refresh</button>
       <div className="content">
-        {!getLoading && <Alerts alerts={getAlerts} deleteFn={deleteAlert}/>}
+        {!getLoading && <Alerts alerts={getAlerts}
+                                deleteFn={deleteAlert}
+                                upvoteAlert={upvoteAlert}/>}
         <AlertInput fn={submitAlert}/>
       </div>
       <pre style={ { color: "red"}}>

@@ -106,3 +106,15 @@ func (api *API) Seed(w http.ResponseWriter, r *http.Request) {
 	api.db.Seed()
 	w.Write([]byte("OK"))
 }
+
+func (api *API) Upvote(w http.ResponseWriter, r *http.Request) {
+	if queryParam := r.URL.Query().Get("id"); queryParam != "" {
+		id, _ := strconv.Atoi(queryParam)
+
+		err := api.db.Upvote(id)
+		if err != nil {
+			log.Println(err)
+		}
+		w.Write([]byte("OK"))
+	}
+}

@@ -43,3 +43,15 @@ func (db *DB) DeleteAllAlarms() error {
 	}
 	return nil
 }
+
+func (db *DB) Upvote(id int) error {
+	var a Alarm
+	if err := db.conn.First(&a, id).Error; err != nil {
+		return err
+	}
+
+	a.Votes = a.Votes + 1
+	db.conn.Save(&a)
+
+	return nil
+}
