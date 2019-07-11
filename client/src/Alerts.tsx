@@ -37,7 +37,11 @@ const AlertInput: React.FC<AletsInputProps> =
     const [alert, setAlert] = useState("")
     const enterKeyGuard = ({ keyCode }: React.KeyboardEvent) => {
       if (keyCode === 13) {
-        fn(alert)
+        if (isAllCaps(alert)) {
+          fn(alert)
+        } else {
+          window.alert("alert must be all caps")
+        }
       }
     }
 
@@ -48,4 +52,7 @@ const AlertInput: React.FC<AletsInputProps> =
              placeholder="enter new alert"/>)
 
   }
-export { Alerts, AlertInput }
+
+const isAllCaps = (str: string) => str === str.toUpperCase()
+
+export { Alerts, AlertInput, isAllCaps }
