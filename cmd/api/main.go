@@ -22,11 +22,12 @@ func main() {
 	})
 	version := conf.GetString("version")
 	seed := conf.GetBool("seed")
+	connStr := conf.GetString("conn_str")
 
 	log.Printf("version: %s\n", version)
 	log.Printf("seeding: %t\n", seed)
 
-	pgdb, err := gorm.Open("postgres", "host=project-postgres port=5432 dbname=postgres user=postgres password=postgres sslmode=disable")
+	pgdb, err := gorm.Open("postgres", connStr)
 	if err != nil {
 		log.Fatalln(err, "Could not connect to postgres database")
 	}
